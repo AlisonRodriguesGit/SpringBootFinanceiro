@@ -14,12 +14,14 @@ import static java.util.Arrays.asList;
 @RequestMapping("formaspagamento")
 public class FormaPagamentoResource {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
+    //@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> listAll() {
         return new ResponseEntity<>(FormaPagamento.formaPagamentoList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @GetMapping(path = "/{id}")
+    //@RequestMapping(method = RequestMethod.GET, path = "/{id}")
     //busca informação passando um id. Ex:localhost:8080/formapagamento/2
     public ResponseEntity<?> getFormaPagamentoById(@PathVariable("id") int id) {
         FormaPagamento formaPagamento = new FormaPagamento();
@@ -32,9 +34,25 @@ public class FormaPagamentoResource {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST) //inserir informação. Ex:localhost:8080/formapagamento
+    @PostMapping
+    //@RequestMapping(method = RequestMethod.POST) //inserir informação. Ex:localhost:8080/formapagamento
     public ResponseEntity<?> save(@RequestBody FormaPagamento formaPagamento) {
         FormaPagamento.formaPagamentoList.add(formaPagamento);
         return new ResponseEntity<>(formaPagamento, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    //@RequestMapping(method = RequestMethod.DELETE) //deleta informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
+    public ResponseEntity<?> delete(@RequestBody FormaPagamento formaPagamento) {
+        FormaPagamento.formaPagamentoList.remove(formaPagamento);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    //@RequestMapping(method = RequestMethod.PUT) //Altera informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
+    public ResponseEntity<?> update(@RequestBody FormaPagamento formaPagamento) {
+        FormaPagamento.formaPagamentoList.remove(formaPagamento);
+        FormaPagamento.formaPagamentoList.add(formaPagamento);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
