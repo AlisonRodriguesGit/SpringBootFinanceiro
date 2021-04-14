@@ -14,18 +14,29 @@ public class FormaPagamentoService {
     @Autowired
     private FormaPagamentoRepository formaPagamentoDAO;
 
-    public Object getFormasPagamento() {
+    public Object get() {
         Iterable formaPagamento = formaPagamentoDAO.findAll();
         return formaPagamento;
     }
 
-    public Optional<FormaPagamento> getFormasPagamentoPorID(Long id){
+    public Optional<FormaPagamento> getPorID(Long id){
         Optional<FormaPagamento> formaPagamento = formaPagamentoDAO.findById(id);
         return formaPagamento;
     }
 
-    public List<FormaPagamento> getFormasPagamentoPorNome(String nome){
+    public List<FormaPagamento> getPorNome(String nome){
         List<FormaPagamento> formasPagamento = formaPagamentoDAO.findByName(nome);
         return formasPagamento;
     }
+
+    public FormaPagamento salvar(FormaPagamento formaPagamento){
+        FormaPagamento formaPagamento1  = formaPagamento;
+        formaPagamentoDAO.save(formaPagamento1);
+        return formaPagamento1;
+    }
+
+    public void deletar(Long id){
+        formaPagamentoDAO.deleteById(id);
+    }
+
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository                                                    //Contem já alguns métodos de consulta
-public interface FormaPagamentoRepository extends JpaRepository<FormaPagamento, Long>{ //extends CrudRepository {
+//@Repository                                                    //Contem já alguns métodos de consulta. JpaRepository<FormaPagamento, Long>
+public interface FormaPagamentoRepository extends CrudRepository<FormaPagamento, Long> {
     List<FormaPagamento> findByName(String nome);
 }
