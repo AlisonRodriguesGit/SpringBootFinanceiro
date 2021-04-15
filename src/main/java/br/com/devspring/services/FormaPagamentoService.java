@@ -27,7 +27,7 @@ public class FormaPagamentoService {
     }
 
     public List<FormaPagamento> getPorNome(String nome){
-        List<FormaPagamento> formasPagamento = formaPagamentoDAO.findByName(nome);
+        List<FormaPagamento> formasPagamento = formaPagamentoDAO.findByNameIgnoreCaseContaining(nome);
         return formasPagamento;
     }
 

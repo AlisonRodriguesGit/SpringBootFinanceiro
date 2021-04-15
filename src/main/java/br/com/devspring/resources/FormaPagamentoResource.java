@@ -40,7 +40,6 @@ public class FormaPagamentoResource {
     @GetMapping(path = "/findByName/{name}")
     public ResponseEntity<?> finByName(@PathVariable("name") String name) {
         return new ResponseEntity<>(formaPagamentoService.getPorNome(name), HttpStatus.OK);
-
     }
 
     @PostMapping
@@ -53,12 +52,12 @@ public class FormaPagamentoResource {
     //@RequestMapping(method = RequestMethod.DELETE) //deleta informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
     public ResponseEntity<?> delete(@PathVariable Long id) {
         formaPagamentoService.deletar(id);
-        return new ResponseEntity<>(HttpStatus.OK);//200
+        return new ResponseEntity<>(HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }
 
     @PutMapping
     //@RequestMapping(method = RequestMethod.PUT) //Altera informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
     public ResponseEntity<?> update(@RequestBody FormaPagamento formaPagamento) {
-        return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.OK);
+        return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }
 }
