@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("formaspagamento")
 public class FormaPagamentoResource {
@@ -33,9 +35,11 @@ public class FormaPagamentoResource {
         return new ResponseEntity<>(formaPagamentoService.getPorNome(name), HttpStatus.OK);
     }
 
-    @PostMapping
+
+    //@Transactional(rollbackFor = Exception.class) //Por padrão faz roolback quando existe exceção que não é checked. Se for necessário informar explicitamente
     //@RequestMapping(method = RequestMethod.POST) //inserir informação. Ex:localhost:8080/formapagamento
-    public ResponseEntity<?> save(@RequestBody FormaPagamento formaPagamento) {
+    @PostMapping
+    public ResponseEntity<?> save(@Valid @RequestBody FormaPagamento formaPagamento) {
         return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.CREATED); //201
     }
 

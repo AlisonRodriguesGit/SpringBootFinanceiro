@@ -1,8 +1,5 @@
 package br.com.devspring.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,7 +17,6 @@ public class MovimentacaoFinanceira extends AbstractEntity{
     private Double valor;
     private Double valorPagamento;
 
-    @JsonManagedReference//Trata referencia ciclica.
     @ManyToMany
     @JoinTable(name = "MOVFINANCEIRA_FORMAPAGAMENTO",
         joinColumns = @JoinColumn(name = "mov_financeira_id"),
