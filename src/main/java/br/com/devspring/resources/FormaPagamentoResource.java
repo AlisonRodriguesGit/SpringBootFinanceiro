@@ -1,16 +1,11 @@
 package br.com.devspring.resources;
 
-import br.com.devspring.error.CustomErrorType;
 import br.com.devspring.domain.FormaPagamento;
-import br.com.devspring.repository.FormaPagamentoRepository;
 import br.com.devspring.services.FormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("formaspagamento")
@@ -31,10 +26,6 @@ public class FormaPagamentoResource {
     public ResponseEntity<?> findById(@PathVariable Long id) {
         FormaPagamento formaPagamento = formaPagamentoService.getPorID(id);
         return ResponseEntity.ok().body(formaPagamento);
-
-        //if (formaPagamento.isEmpty())
-          //  return new ResponseEntity<>(new CustomErrorType("Forma Pagamento not found"), HttpStatus.NOT_FOUND); //retorna exceção personalizado
-        //return ResponseEntity.ok().body(formaPagamento);//return new ResponseEntity<>(formmaPagamento, HttpStatus.OK); //retorna a forma de pagamento.*/
     }
 
     @GetMapping(path = "/findByName/{name}")

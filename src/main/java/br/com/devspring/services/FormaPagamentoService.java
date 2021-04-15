@@ -15,6 +15,12 @@ public class FormaPagamentoService {
     @Autowired
     private FormaPagamentoRepository formaPagamentoDAO;
 
+    private void verificaSeFormaPagamentoExiste(Long id){
+        if (formaPagamentoDAO.findById(id).isEmpty())
+            throw new ObjectNotFoundException(
+                    "Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName());
+    }
+
     public Object get() {
         Iterable formaPagamento = formaPagamentoDAO.findAll();
         return formaPagamento;
@@ -38,6 +44,7 @@ public class FormaPagamentoService {
     }
 
     public void deletar(Long id){
+        verificaSeFormaPagamentoExiste(id);
         formaPagamentoDAO.deleteById(id);
     }
 
