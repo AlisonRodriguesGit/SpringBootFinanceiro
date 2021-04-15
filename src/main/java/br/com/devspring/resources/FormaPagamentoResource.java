@@ -29,12 +29,12 @@ public class FormaPagamentoResource {
     //busca informação passando um id. Ex:localhost:8080/formapagamento/2
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<FormaPagamento> formaPagamento = formaPagamentoService.getPorID(id);
-        if (formaPagamento == null)
-            return new ResponseEntity<>(new CustomErrorType("Forma Pagamento not found"), HttpStatus.NOT_FOUND); //retorna exceção personalizada
-        //return new ResponseEntity<>(formmaPagamento, HttpStatus.OK); //retorna a forma de pagamento.*/
+        FormaPagamento formaPagamento = formaPagamentoService.getPorID(id);
         return ResponseEntity.ok().body(formaPagamento);
 
+        //if (formaPagamento.isEmpty())
+          //  return new ResponseEntity<>(new CustomErrorType("Forma Pagamento not found"), HttpStatus.NOT_FOUND); //retorna exceção personalizado
+        //return ResponseEntity.ok().body(formaPagamento);//return new ResponseEntity<>(formmaPagamento, HttpStatus.OK); //retorna a forma de pagamento.*/
     }
 
     @GetMapping(path = "/findByName/{name}")

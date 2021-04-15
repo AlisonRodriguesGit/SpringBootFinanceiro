@@ -2,6 +2,7 @@ package br.com.devspring.services;
 
 import br.com.devspring.domain.FormaPagamento;
 import br.com.devspring.repository.FormaPagamentoRepository;
+import br.com.devspring.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,10 @@ public class FormaPagamentoService {
         return formaPagamento;
     }
 
-    public Optional<FormaPagamento> getPorID(Long id){
+    public FormaPagamento getPorID(Long id){
         Optional<FormaPagamento> formaPagamento = formaPagamentoDAO.findById(id);
-        //if (formaPagamento == null)
-        //return formaPagamento.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName()));
-        return formaPagamento;
+        return formaPagamento.orElseThrow(() -> new ObjectNotFoundException(
+                    "Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName()));
     }
 
     public List<FormaPagamento> getPorNome(String nome){
