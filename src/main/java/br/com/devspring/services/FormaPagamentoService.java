@@ -21,6 +21,8 @@ public class FormaPagamentoService {
 
     public Optional<FormaPagamento> getPorID(Long id){
         Optional<FormaPagamento> formaPagamento = formaPagamentoDAO.findById(id);
+        //if (formaPagamento == null)
+        //return formaPagamento.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName()));
         return formaPagamento;
     }
 

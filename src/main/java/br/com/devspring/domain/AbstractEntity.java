@@ -12,7 +12,7 @@ import java.util.Objects;
 public class AbstractEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) //autoincremento
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincremento
     private Long id;
 
     @Override
