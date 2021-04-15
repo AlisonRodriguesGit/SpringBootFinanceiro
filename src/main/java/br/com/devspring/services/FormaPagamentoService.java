@@ -4,6 +4,7 @@ import br.com.devspring.domain.FormaPagamento;
 import br.com.devspring.repository.FormaPagamentoRepository;
 import br.com.devspring.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class FormaPagamentoService {
                     "Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName());
     }
 
-    public Object get() {
-        Iterable formaPagamento = formaPagamentoDAO.findAll();
+    public Object get(Pageable pageable) {
+        Iterable formaPagamento = formaPagamentoDAO.findAll(pageable);
         return formaPagamento;
     }
 
