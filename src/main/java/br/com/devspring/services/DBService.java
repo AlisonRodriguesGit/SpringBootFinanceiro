@@ -26,6 +26,9 @@ public class DBService {
     @Autowired
     private FinancerioUserRepository financerioUserRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder pe;
+
     public void instantiateTestDataBase(){
         FormaPagamento formaPagamento1 = new FormaPagamento("Dinheiro");
         FormaPagamento formaPagamento2 = new FormaPagamento("Cartão");
@@ -48,8 +51,8 @@ public class DBService {
         formaPagamentoDAO.saveAll(Arrays.asList(formaPagamento1,formaPagamento2));
         movimentacaoFinanceiraDAO.saveAll(Arrays.asList(mov1,mov2,mov3));
 
-        FinanceiroUser user1 = new FinanceiroUser("Alison", new BCryptPasswordEncoder().encode("dev"),"Alison",false);
-        FinanceiroUser user2 = new FinanceiroUser("Joao", new BCryptPasswordEncoder().encode("123456"),"Joao",true);
+        FinanceiroUser user1 = new FinanceiroUser("Alison", pe.encode("dev"),"Alison",false);
+        FinanceiroUser user2 = new FinanceiroUser("Joao", pe.encode("123456"),"Joao",true);
 
         financerioUserRepository.saveAll(Arrays.asList(user1,user2));
     }

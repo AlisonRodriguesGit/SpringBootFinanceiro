@@ -78,6 +78,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    //Objeto que pode ser injetado em qualquer classe do sistema
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
     /* Os dois métodos abaixo trata de autenticação de usuários do Cusro Spring Boot Essencials, mas naõ consegui colocar para funcionar
     @Autowired
     private CustomUserDetailService customUserDetailService;
