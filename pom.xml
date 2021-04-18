@@ -9,8 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.devspring</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>financeiro</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging> <!-- Configuração para gerar um JAR -->
     <name>demo</name>
     <description>Financeiro estudo Spring Boot</description>
     <properties>
@@ -41,6 +42,11 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
@@ -48,13 +54,27 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
         </dependency>
+        <!-- Necessário para criação de token para validação-->
+        <dependency>
+            <groupId>io.jasonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>financeiro</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration> <!-- Configuração para gerar um JAR -->
+                    <executable>true</executable>
+                </configuration>
             </plugin>
         </plugins>
     </build>

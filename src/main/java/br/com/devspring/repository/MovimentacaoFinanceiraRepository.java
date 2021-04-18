@@ -1,8 +1,10 @@
 package br.com.devspring.repository;
 
 import br.com.devspring.domain.MovimentacaoFinanceira;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MovimentacaoFinanceiraRepository extends CrudRepository<MovimentacaoFinanceira,Long> {
+@Repository
+public interface MovimentacaoFinanceiraRepository extends PagingAndSortingRepository<MovimentacaoFinanceira,Long> {
 
 }

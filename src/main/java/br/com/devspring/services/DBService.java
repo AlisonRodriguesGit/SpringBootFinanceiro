@@ -1,10 +1,13 @@
 package br.com.devspring.services;
 
+import br.com.devspring.domain.FinanceiroUser;
 import br.com.devspring.domain.FormaPagamento;
 import br.com.devspring.domain.MovimentacaoFinanceira;
+import br.com.devspring.repository.FinancerioUserRepository;
 import br.com.devspring.repository.FormaPagamentoRepository;
 import br.com.devspring.repository.MovimentacaoFinanceiraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -19,6 +22,9 @@ public class DBService {
 
     @Autowired
     private MovimentacaoFinanceiraRepository movimentacaoFinanceiraDAO;
+
+    @Autowired
+    private FinancerioUserRepository financerioUserRepository;
 
     public void instantiateTestDataBase(){
         FormaPagamento formaPagamento1 = new FormaPagamento("Dinheiro");
@@ -41,5 +47,10 @@ public class DBService {
 
         formaPagamentoDAO.saveAll(Arrays.asList(formaPagamento1,formaPagamento2));
         movimentacaoFinanceiraDAO.saveAll(Arrays.asList(mov1,mov2,mov3));
+
+        FinanceiroUser user1 = new FinanceiroUser("Alison", new BCryptPasswordEncoder().encode("dev"),"Alison",false);
+        FinanceiroUser user2 = new FinanceiroUser("Joao", new BCryptPasswordEncoder().encode("123456"),"Joao",true);
+
+        financerioUserRepository.saveAll(Arrays.asList(user1,user2));
     }
 }
