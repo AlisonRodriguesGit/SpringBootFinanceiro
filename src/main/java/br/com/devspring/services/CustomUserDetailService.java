@@ -1,6 +1,7 @@
 package br.com.devspring.services;
 
 import br.com.devspring.domain.FinanceiroUser;
+import br.com.devspring.domain.enums.Perfil;
 import br.com.devspring.repository.FinancerioUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +35,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
         //Retorna um Usuário do Spring(UserDetails) com a sua Lista de GrantedAuthority.
         return new User(financeiroUser.getUserName(), financeiroUser.getPassword(),
-                    financeiroUser.isAdmin() ? authoritiesListAdmin: authoritiesListUser);
+                    financeiroUser.getPerfins().contains(Perfil.ADMIN) ? authoritiesListAdmin: authoritiesListUser);
     }
 }

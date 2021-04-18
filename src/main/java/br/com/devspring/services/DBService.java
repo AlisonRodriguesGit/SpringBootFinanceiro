@@ -3,6 +3,7 @@ package br.com.devspring.services;
 import br.com.devspring.domain.FinanceiroUser;
 import br.com.devspring.domain.FormaPagamento;
 import br.com.devspring.domain.MovimentacaoFinanceira;
+import br.com.devspring.domain.enums.Perfil;
 import br.com.devspring.repository.FinancerioUserRepository;
 import br.com.devspring.repository.FormaPagamentoRepository;
 import br.com.devspring.repository.MovimentacaoFinanceiraRepository;
@@ -53,6 +54,7 @@ public class DBService {
 
         FinanceiroUser user1 = new FinanceiroUser("Alison", pe.encode("dev"),"Alison",false);
         FinanceiroUser user2 = new FinanceiroUser("Joao", pe.encode("123456"),"Joao",true);
+        user2.addPerfil(Perfil.ADMIN);
 
         financerioUserRepository.saveAll(Arrays.asList(user1,user2));
     }
