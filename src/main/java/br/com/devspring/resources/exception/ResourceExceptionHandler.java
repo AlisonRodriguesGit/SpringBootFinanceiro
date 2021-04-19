@@ -40,21 +40,17 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler { /
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //Recupera os campos que tiveram falha na validação
+        //List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors(); //Recupera os campos que tiveram falha na validação
 
         //Percorre a lista, grava em um map o Nome do Field e retorna uma string separando os Fields por virgula.
-        String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(","));
-        String fieldMessages = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(","));
+        //String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(","));
+        //String fieldMessages = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(","));
 
-        ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(),"Fields Validation Error"
-                , System.currentTimeMillis(), ex.getClass().getName(),fields, fieldMessages);
+        ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação", System.currentTimeMillis(), ex.getClass().getName());
 
-        //Codigo comentado abaixo é a tentativa trabalhar com HaspMap, melhorando a vizualização do retorno do erro. NAO FUNCIONOU.
-        /*ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(),"Fields Validation Error"
-                , System.currentTimeMillis(), ex.getClass().getName());
-
-        Map<String,String> fielsMenssage = new HashMap<String,String>();
-        fielsMenssage.put(fields,fieldMessages);*/
+        for (FieldError x : ex.getBindingResult().getFieldErrors()) {
+            err.addError(x.getField(),x.getDefaultMessage());
+        }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }

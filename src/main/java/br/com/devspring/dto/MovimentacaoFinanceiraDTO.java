@@ -2,11 +2,15 @@ package br.com.devspring.dto;
 
 import br.com.devspring.domain.AbstractEntity;
 import br.com.devspring.domain.MovimentacaoFinanceira;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 public class MovimentacaoFinanceiraDTO  extends AbstractEntity{
 
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String descricao;
     private Date dataLancamento;
     private Date dataPagamento;

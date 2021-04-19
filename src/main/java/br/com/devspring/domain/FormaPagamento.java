@@ -3,6 +3,7 @@ package br.com.devspring.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -15,10 +16,10 @@ import java.util.List;
 public class FormaPagamento extends AbstractEntity{
 
     @NotEmpty(message = "O campo nome da forma de pagamento é obrigatório")
-    //@DecimalMax("30.0")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
 
-    @JsonIgnore//Trata referencia ciclica. //especificamento não convert o atributo em Json.
+    @JsonIgnore//Trata referencia ciclica. //especificamente não convert o atributo em Json.
     @ManyToMany(mappedBy = "formasPagamento")
     private List<MovimentacaoFinanceira> movimetacoesFinanceira = new ArrayList<>();
 
