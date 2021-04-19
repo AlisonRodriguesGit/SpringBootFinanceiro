@@ -16,7 +16,7 @@ public class FormaPagamentoService {
     @Autowired
     private FormaPagamentoRepository formaPagamentoDAO;
 
-    private void verificaSeFormaPagamentoExiste(Long id){
+    private void verifyIfFormaPagamentoExist(Long id){
         if (formaPagamentoDAO.findById(id).isEmpty())
             throw new ObjectNotFoundException(
                     "Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName());
@@ -33,20 +33,23 @@ public class FormaPagamentoService {
                     "Objeto não encontrado! Id: " + id + ", Tipo: " + FormaPagamento.class.getName()));
     }
 
-    public List<FormaPagamento> getPorNome(String nome){
+    public List<FormaPagamento> getForName(String nome){
         List<FormaPagamento> formasPagamento = formaPagamentoDAO.findByNameIgnoreCaseContaining(nome);
         return formasPagamento;
     }
 
-    public FormaPagamento salvar(FormaPagamento formaPagamento){
-        //FormaPagamento formaPagamento1  = formaPagamento;
+    public FormaPagamento save(FormaPagamento formaPagamento){
         formaPagamento.setId(null);
         return formaPagamentoDAO.save(formaPagamento);
-        //return formaPagamento;
     }
 
-    public void deletar(Long id){
-        verificaSeFormaPagamentoExiste(id);
+    public FormaPagamento update(FormaPagamento formaPagamento){
+        verifyIfFormaPagamentoExist(formaPagamento.getId());
+        return formaPagamentoDAO.save(formaPagamento);
+    }
+
+    public void delete(Long id){
+        verifyIfFormaPagamentoExist(id);
         formaPagamentoDAO.deleteById(id);
     }
 

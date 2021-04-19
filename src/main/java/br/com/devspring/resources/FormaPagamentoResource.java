@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("formaspagamento")
@@ -32,14 +33,16 @@ public class FormaPagamentoResource {
     //@RequestMapping(method = RequestMethod.GET, path = "/{id}")
     //busca informação passando um id. Ex:localhost:8080/formapagamento/2
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDatails) { //@AuthenticationPrincipal UserDetails userDatails -> pega o usuário logado
+    public ResponseEntity<FormaPagamento> findById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDatails) { //@AuthenticationPrincipal UserDetails userDatails -> pega o usuário logado
         FormaPagamento formaPagamento = formaPagamentoService.getPorID(id);
         return ResponseEntity.ok().body(formaPagamento);
     }
 
     @GetMapping(path = "/findByName/{name}")
-    public ResponseEntity<?> finByName(@PathVariable("name") String name) {
-        return new ResponseEntity<>(formaPagamentoService.getPorNome(name), HttpStatus.OK);
+    public ResponseEntity<List<FormaPagamento>> finByName(@PathVariable("name") String name) {
+        List<FormaPagamento> formasPagamento =  formaPagamentoService.getForName(name);
+        return ResponseEntity.ok().body(formasPagamento);
+        //return new ResponseEntity<>(formaPagamentoService.getPorName(name), HttpStatus.OK);
     }
 
 
@@ -48,12 +51,14 @@ public class FormaPagamentoResource {
     @PostMapping
     //@Transactional(rollbackFor = Exception.class)
     public ResponseEntity<Void> save(@Valid @RequestBody FormaPagamento formaPagamento) {
-        formaPagamentoService.salvar(formaPagamento);
+        formaPagamentoService.save(formaPagamento);
                   //Pega a URI (Ex:localhost:8080/formaspagamento) e acrescenta /'numero id inserido' para retornar no Header do Reponse.
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(formaPagamento.getId()).toUri();
         return ResponseEntity.created(uri).build();
 
+        //RETORNA O OBJETO.
+        //return ResponseEntity.created().body(formaPagamento);
         //return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.CREATED); //201
     }
 
@@ -61,13 +66,19 @@ public class FormaPagamentoResource {
     //@PreAuthorize("ADMIM") //Indica que para excluir precisa de permissão de Admin, configurado em 'SecurityConfig'.
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        formaPagamentoService.deletar(id);
+        formaPagamentoService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }
 
-    @PutMapping
+    @PutMapping(path = "/{id}")
     //@RequestMapping(method = RequestMethod.PUT) //Altera informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
-    public ResponseEntity<?> update(@RequestBody FormaPagamento formaPagamento) {
-        return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
+    public ResponseEntity<Void> update(@RequestBody FormaPagamento formaPagamento, @PathVariable Long id) {
+        formaPagamento.setId(id);
+        formaPagamento = formaPagamentoService.save(formaPagamento);
+        return ResponseEntity.noContent().build();
+
+        //RETORNA O OBJETO.
+        //return ResponseEntity.ok().body(formaPagamento);
+        //return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }
 }

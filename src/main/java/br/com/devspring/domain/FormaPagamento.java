@@ -18,7 +18,7 @@ public class FormaPagamento extends AbstractEntity{
     //@DecimalMax("30.0")
     private String name;
 
-    @JsonIgnore//Trata referencia ciclica.
+    @JsonIgnore//Trata referencia ciclica. //especificamento não convert o atributo em Json.
     @ManyToMany(mappedBy = "formasPagamento")
     private List<MovimentacaoFinanceira> movimetacoesFinanceira = new ArrayList<>();
 
