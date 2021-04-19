@@ -26,21 +26,21 @@ public class FormaPagamentoResource {
 
     @GetMapping
     //@RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> listAll(Pageable pageable) {
-        return new ResponseEntity<>(formaPagamentoService.get(pageable), HttpStatus.OK);
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        return new ResponseEntity<>(formaPagamentoService.findAll(pageable), HttpStatus.OK);
     }
 
     //@RequestMapping(method = RequestMethod.GET, path = "/{id}")
     //busca informação passando um id. Ex:localhost:8080/formapagamento/2
     @GetMapping(path = "/{id}")
     public ResponseEntity<FormaPagamento> findById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDatails) { //@AuthenticationPrincipal UserDetails userDatails -> pega o usuário logado
-        FormaPagamento formaPagamento = formaPagamentoService.getPorID(id);
+        FormaPagamento formaPagamento = formaPagamentoService.findById(id);
         return ResponseEntity.ok().body(formaPagamento);
     }
 
     @GetMapping(path = "/findByName/{name}")
     public ResponseEntity<List<FormaPagamento>> finByName(@PathVariable("name") String name) {
-        List<FormaPagamento> formasPagamento =  formaPagamentoService.getForName(name);
+        List<FormaPagamento> formasPagamento =  formaPagamentoService.finByName(name);
         return ResponseEntity.ok().body(formasPagamento);
         //return new ResponseEntity<>(formaPagamentoService.getPorName(name), HttpStatus.OK);
     }
@@ -67,14 +67,16 @@ public class FormaPagamentoResource {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         formaPagamentoService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
+        return ResponseEntity.noContent().build();
+
+        //return new ResponseEntity<>(HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }
 
     @PutMapping(path = "/{id}")
     //@RequestMapping(method = RequestMethod.PUT) //Altera informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
     public ResponseEntity<Void> update(@RequestBody FormaPagamento formaPagamento, @PathVariable Long id) {
         formaPagamento.setId(id);
-        formaPagamento = formaPagamentoService.save(formaPagamento);
+        formaPagamento = formaPagamentoService.update(formaPagamento);
         return ResponseEntity.noContent().build();
 
         //RETORNA O OBJETO.

@@ -1,5 +1,6 @@
 package br.com.devspring.resources.exception;
 
+import br.com.devspring.services.exception.DataIntegrityViolationException;
 import br.com.devspring.services.exception.ObjectNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,13 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler { /
 
         StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(),ex.getMessage(), System.currentTimeMillis(), ex.getClass().getName());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class) //Indica que esse método trata esse tipo de exception.
+    public ResponseEntity<StandardError> dataIntegrityViolation(DataIntegrityViolationException ex, HttpServletRequest request){
+
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(),ex.getMessage(), System.currentTimeMillis(), ex.getClass().getName());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
     @Override
