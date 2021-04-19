@@ -11,8 +11,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("formaspagamento")
@@ -45,14 +47,20 @@ public class FormaPagamentoResource {
     //@RequestMapping(method = RequestMethod.POST) //inserir informação. Ex:localhost:8080/formapagamento
     @PostMapping
     //@Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> save(@Valid @RequestBody FormaPagamento formaPagamento) {
-        return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.CREATED); //201
+    public ResponseEntity<Void> save(@Valid @RequestBody FormaPagamento formaPagamento) {
+        formaPagamentoService.salvar(formaPagamento);
+                  //Pega a URI (Ex:localhost:8080/formaspagamento) e acrescenta /'numero id inserido' para retornar no Header do Reponse.
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(formaPagamento.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
+        //return new ResponseEntity<>(formaPagamentoService.salvar(formaPagamento), HttpStatus.CREATED); //201
     }
 
     //@RequestMapping(method = RequestMethod.DELETE) //deleta informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
     //@PreAuthorize("ADMIM") //Indica que para excluir precisa de permissão de Admin, configurado em 'SecurityConfig'.
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         formaPagamentoService.deletar(id);
         return new ResponseEntity<>(HttpStatus.OK);//200 //Pode ser Status NO_CONTENT, precisa só seguir um padrão.
     }

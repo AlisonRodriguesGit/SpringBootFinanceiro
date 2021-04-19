@@ -52,8 +52,8 @@ public class DBService {
         formaPagamentoDAO.saveAll(Arrays.asList(formaPagamento1,formaPagamento2));
         movimentacaoFinanceiraDAO.saveAll(Arrays.asList(mov1,mov2,mov3));
 
-        FinanceiroUser user1 = new FinanceiroUser("Alison", pe.encode("dev"),"Alison",false);
-        FinanceiroUser user2 = new FinanceiroUser("Joao", pe.encode("123456"),"Joao",true);
+        FinanceiroUser user1 = new FinanceiroUser("Alison", pe.encode("dev"),"Alison","alison@gmail.com");
+        FinanceiroUser user2 = new FinanceiroUser("Joao", pe.encode("123456"),"Joao","joao@gmail.com");
         user2.addPerfil(Perfil.ADMIN);
 
         financerioUserRepository.saveAll(Arrays.asList(user1,user2));

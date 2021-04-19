@@ -39,9 +39,10 @@ public class FormaPagamentoService {
     }
 
     public FormaPagamento salvar(FormaPagamento formaPagamento){
-        FormaPagamento formaPagamento1  = formaPagamento;
-        formaPagamentoDAO.save(formaPagamento1);
-        return formaPagamento1;
+        //FormaPagamento formaPagamento1  = formaPagamento;
+        formaPagamento.setId(null);
+        return formaPagamentoDAO.save(formaPagamento);
+        //return formaPagamento;
     }
 
     public void deletar(Long id){

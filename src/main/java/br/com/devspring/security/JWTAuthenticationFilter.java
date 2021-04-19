@@ -1,4 +1,4 @@
-package br.com.devspring.config.JWT;
+package br.com.devspring.security;
 
 import br.com.devspring.domain.FinanceiroUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     /*@Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        //Lendo a requisição (Usuario e senha) e convertendo para o Objeto Financeiro Usuario.
+        //Lendo a requisição (usuario e senha) e convertendo para o Objeto Financeiro Usuario.
         try {
             FinanceiroUser user = new ObjectMapper().readValues(request.getInputStream(), FinanceiroUser.class);
             //Passando a autenticação o authenticationManager, onde o próprio Spring chamará o método 'successfulAuthentication'
@@ -39,4 +39,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
     }
+
+
 }

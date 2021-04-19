@@ -4,6 +4,7 @@ import br.com.devspring.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,9 @@ public class FinanceiroUser extends AbstractEntity{
     private String password;
     @NotEmpty
     private String name;
+    @Email
+    @NotEmpty
+    private  String email;
 
     @ElementCollection(fetch = FetchType.EAGER) //Sempre trazer a lista de Perfis
     @CollectionTable(name = "PERFIS") //Cria uma tabela simples (1:1) Ex: (Financeiro_User_ID ; PERFIS)
@@ -32,10 +36,11 @@ public class FinanceiroUser extends AbstractEntity{
         addPerfil(Perfil.USER);
     }
 
-    public FinanceiroUser(@NotEmpty String userName, @NotEmpty String password, @NotEmpty String name, boolean admin) {
+    public FinanceiroUser(@NotEmpty String userName, @NotEmpty String password, @NotEmpty String name, String email/*, boolean admin*/) {
         this.userName = userName;
         this.password = password;
         this.name = name;
+        this.email = email;
         addPerfil(Perfil.USER);
         //this.admin = admin;
     }
@@ -62,6 +67,14 @@ public class FinanceiroUser extends AbstractEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Perfil> getPerfins(){

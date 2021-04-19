@@ -1,8 +1,6 @@
-package br.com.devspring.config.JWT;
+package br.com.devspring.security;
 
-import br.com.devspring.services.CustomUserDetailService;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;

@@ -28,11 +28,16 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    //Obs: verificar se injetando a Interface UserDetailService o Spring já encontra a classe CustomUserDetailService
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
+
     @Autowired
     private Environment env;//Específico para utilização do banco H2 na URL
 
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",
+            "/formaspagamento/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
@@ -49,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.cors();
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll() //Permite as Urls
+                //.antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll() //Permite as Urls
                 .antMatchers(PUBLIC_MATCHERS).permitAll() //Permite as Urls
                 .anyRequest().authenticated() //Para as demais URLs pede authenticação
                 .and()
@@ -59,10 +64,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
     /* A permissão dee cors é necessária para que Requisições vindas de outro servidor(varias fontes) (Ex: o Front-End) possam funcionar,
     caso contrario receberão erro de Cors
      */
-
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         /*CorsConfiguration configuration = new CorsConfiguration();
