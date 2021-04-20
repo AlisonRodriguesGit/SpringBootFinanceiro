@@ -1,20 +1,38 @@
 package br.com.devspring.domain;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+@Entity
 public class Cidade extends AbstractEntity{
 
-    private String nome;
+    @NotEmpty(message = "O campo nome da forma de pagamento é obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
+    private String name;
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
     private Estado estado;
 
     public Cidade(){
 
     }
 
-    public String getNome() {
-        return nome;
+    public Cidade(String name, Estado estado) {
+        this.name = name;
+        this.estado = estado;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Estado getEstado() {

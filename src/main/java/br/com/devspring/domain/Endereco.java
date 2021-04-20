@@ -1,5 +1,12 @@
 package br.com.devspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Endereco extends AbstractEntity {
 
     private String logadouro;
@@ -8,8 +15,12 @@ public class Endereco extends AbstractEntity {
     private String bairro;
     private String cep;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
+    @ManyToOne
+    @JoinColumn(name = "cidade_id")
     private Cidade cidade;
 
     public Endereco(){

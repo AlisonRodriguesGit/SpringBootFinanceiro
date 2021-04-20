@@ -1,12 +1,9 @@
 package br.com.devspring.services;
 
-import br.com.devspring.domain.FinanceiroUser;
-import br.com.devspring.domain.FormaPagamento;
-import br.com.devspring.domain.MovimentacaoFinanceira;
+import br.com.devspring.domain.*;
 import br.com.devspring.domain.enums.Perfil;
-import br.com.devspring.repository.FinancerioUserRepository;
-import br.com.devspring.repository.FormaPagamentoRepository;
-import br.com.devspring.repository.MovimentacaoFinanceiraRepository;
+import br.com.devspring.domain.enums.TipoCliente;
+import br.com.devspring.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,15 +17,20 @@ public class DBService {
 
     @Autowired
     private FormaPagamentoRepository formaPagamentoDAO;
-
     @Autowired
     private MovimentacaoFinanceiraRepository movimentacaoFinanceiraDAO;
-
     @Autowired
     private FinancerioUserRepository financerioUserRepository;
-
     @Autowired
     private BCryptPasswordEncoder pe;
+    @Autowired
+    private EstadoRepository estadoRepository;
+    @Autowired
+    private CidadeRepository cidadeRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public void instantiateTestDataBase(){
         FormaPagamento formaPagamento1 = new FormaPagamento("Dinheiro");
@@ -57,5 +59,30 @@ public class DBService {
         user2.addPerfil(Perfil.ADMIN);
 
         financerioUserRepository.saveAll(Arrays.asList(user1,user2));
+
+        Estado estado1 = new Estado("Ceará");
+        Estado estado2 = new Estado("São Paulo");
+
+        Cidade cidade1 = new Cidade("Fortaleza",estado1);
+        Cidade cidade2 = new Cidade("São Paulo",estado2);
+        Cidade cidade3 = new Cidade("Campinas",estado2);
+
+        estado1.getCidades().addAll(Arrays.asList(cidade1));
+        estado2.getCidades().addAll(Arrays.asList(cidade2,cidade3));
+
+        estadoRepository.saveAll(Arrays.asList(estado1,estado2));
+        cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3));
+
+        Cliente cliente1 = new Cliente("Alison", "alison@gmail.com", "94805951095", TipoCliente.PESSOAFISICA);
+        cliente1.getTelefones().addAll(Arrays.asList("85986854545","85986854456"));
+
+        Endereco endereco1 = new Endereco("Rua 1117", "178","Altos","CC", "60533354",cliente1,cidade1);
+        Endereco endereco2 = new Endereco("Av. Matos", "999","sala 30","Centro", "38533354",cliente1,cidade2);
+
+        cliente1.getEnderecos().addAll(Arrays.asList(endereco1,endereco2));
+
+        clienteRepository.saveAll(Arrays.asList(cliente1));
+        enderecoRepository.saveAll(Arrays.asList(endereco1,endereco2));
+
     }
 }
