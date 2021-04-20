@@ -10,6 +10,7 @@ import java.util.Objects;
 //Para não ser criada no banco de dados. Só servirá para ser extendida.
 @MappedSuperclass
 public class AbstractEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincremento
