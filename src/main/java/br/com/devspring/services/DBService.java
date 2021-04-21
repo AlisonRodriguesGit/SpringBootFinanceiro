@@ -25,6 +25,8 @@ public class DBService {
     @Autowired
     private MovimentacaoFinanceiraRepository movimentacaoFinanceiraRepository;
     @Autowired
+    private CentroResultadoRepository centroResultadoRepository;
+    @Autowired
     private FinancerioUserRepository financerioUserRepository;
     @Autowired
     private BCryptPasswordEncoder pe;
@@ -139,12 +141,12 @@ public class DBService {
         Parceiro parceiroPedido = new Parceiro("Alison", "alison@gmail.com", "94805951095", TipoParceiro.PESSOAFISICA);
         parceiroPedido.getTelefones().addAll(Arrays.asList("85986854545","85986854456"));
 
-        Endereco endereco = new Endereco("Rua 1117", "178","Altos","CC", "60533354", parceiro1,cidade1);
+        Endereco endereco = new Endereco("Rua 1117", "178","Altos","CC", "60533354", parceiroPedido,cidade1);
 
         parceiroPedido.getEnderecos().addAll(Arrays.asList(endereco));
 
         parceiroRepository.saveAll(Arrays.asList(parceiro1,parceiro2,parceiro3,parceiro4,parceiroPedido));
-        enderecoRepository.saveAll(Arrays.asList(endereco,endereco1,endereco2,endereco3,endereco4));
+        enderecoRepository.saveAll(Arrays.asList(endereco));
 
         Categoria cat1 = new Categoria("Cabelo");
         Produto produto1 = new Produto("Corte",10.00,cat1);
@@ -172,16 +174,22 @@ public class DBService {
         produto2.getItensPedido().addAll(Arrays.asList(ip2));
         produto3.getItensPedido().addAll(Arrays.asList(ip4));
 
+        CentroResultado centroResultado = new CentroResultado("PEDIDOS");
+        MovimentacaoFinanceira mov = new MovimentacaoFinanceira(parceiroPedido,"Recebimento Pedido1",dataAtual,null,100.00,null,TipoCusto.VARIAVEL);
+        formaPagamento1.getMovimetacoesFinanceira().addAll(Arrays.asList(mov));
 
-        //VERIFICAR PQ NÃO CONSIGO INFORMAR OS PAGAMENTOS COM CARTÃO NOS PEDIDOS. ERRO DE CONSTRUTOR
-        ped1.getFormasPagamento().addAll(Arrays.asList(formaPagamento1));
-        ped2.getFormasPagamento().addAll(Arrays.asList(formaPagamento1));
-        //ped2.getFormasPagamento().addAll(Arrays.asList(formaPagamento2));
-        formaPagamento1.getPedidos().addAll(Arrays.asList(ped1,ped2));
-        //formaPagamento2.getPedidos().addAll(Arrays.asList(ped2));
+        mov.getFormasPagamento().addAll(Arrays.asList(formaPagamento1));
+        mov.setPedido(ped1);
+        mov.getCentrosResultado().addAll(Arrays.asList(centroResultado));
+        centroResultado.getMovimetacoesFinanceira().addAll(Arrays.asList(mov));
+
+        ped1.getMovimentacoesFinanceira().addAll(Arrays.asList(mov));
+
 
         pedidoepository.saveAll(Arrays.asList(ped1,ped2));
         itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3,ip4));
+        centroResultadoRepository.saveAll(Arrays.asList(centroResultado));
+        movimentacaoFinanceiraRepository.saveAll(Arrays.asList(mov));
         formaPagamentoRepository.saveAll(Arrays.asList(formaPagamento1));
     }
 }

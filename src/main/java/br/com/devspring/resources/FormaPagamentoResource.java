@@ -1,8 +1,10 @@
 package br.com.devspring.resources;
 
 import br.com.devspring.domain.FormaPagamento;
+import br.com.devspring.domain.Pedido;
 import br.com.devspring.services.FormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,8 @@ public class FormaPagamentoResource {
     @GetMapping
     //@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll(Pageable pageable) {
-        return new ResponseEntity<>(formaPagamentoService.findAll(pageable), HttpStatus.OK);
+        Page<FormaPagamento> formasPagamento = formaPagamentoService.findAll(pageable);
+        return ResponseEntity.ok(formasPagamento);
     }
 
     //@RequestMapping(method = RequestMethod.GET, path = "/{id}")
@@ -35,7 +38,7 @@ public class FormaPagamentoResource {
     @GetMapping(path = "/{id}")
     public ResponseEntity<FormaPagamento> findById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDatails) { //@AuthenticationPrincipal UserDetails userDatails -> pega o usuário logado
         FormaPagamento formaPagamento = formaPagamentoService.findById(id);
-        return ResponseEntity.ok().body(formaPagamento);
+        return ResponseEntity.ok(formaPagamento);
     }
 
     @GetMapping(path = "/findByName/{name}")

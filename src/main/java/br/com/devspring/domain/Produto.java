@@ -1,5 +1,7 @@
 package br.com.devspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +22,7 @@ public class Produto extends AbstractEntity{
     private Categoria categoria;
 
     //Conjunto Set, garante que não vai ter item repetido no mesmo pedido.
+    @JsonIgnore
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itensPedido = new HashSet<>();
 
@@ -33,6 +36,7 @@ public class Produto extends AbstractEntity{
     }
 
     //Buscar a Lista de Pedido de um Produto
+    @JsonIgnore
     public List<Pedido> getPedidos(){
         List<Pedido> lista = new ArrayList<>();
         for (ItemPedido itemPedido: itensPedido) {

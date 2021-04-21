@@ -23,9 +23,9 @@ public class FormaPagamento extends AbstractEntity{
     @ManyToMany(mappedBy = "formasPagamento")
     private List<MovimentacaoFinanceira> movimetacoesFinanceira = new ArrayList<>();
 
-    @JsonIgnore
+    /*@JsonIgnore
     @ManyToMany(mappedBy = "formasPagamento")
-    private List<Pedido> pedidos = new ArrayList<>();
+    private List<Pedido> pedidos = new ArrayList<>();*/
 
     public FormaPagamento() {
     }
@@ -51,12 +51,12 @@ public class FormaPagamento extends AbstractEntity{
         return movimetacoesFinanceira;
     }
 
-    public List<Pedido> getPedidos() {
+   /* public List<Pedido> getPedidos() {
         return pedidos;
     }
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
+    }*/
 
 }

@@ -1,6 +1,7 @@
 package br.com.devspring.domain;
 
 import br.com.devspring.domain.enums.TipoParceiro;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -31,9 +32,11 @@ public class Parceiro extends AbstractEntity {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parceiro")
     private List<MovimentacaoFinanceira> movimentacoesFinanceira = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parceiro")
     private List<Pedido> pedidos = new ArrayList<>();
 

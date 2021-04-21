@@ -1,6 +1,8 @@
 package br.com.devspring.domain;
 
 import br.com.devspring.domain.enums.TipoCusto;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +17,9 @@ public class MovimentacaoFinanceira extends AbstractEntity{
     @JoinColumn(name = "parceiro_id")
     private Parceiro parceiro;
     private String descricao;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataLancamento;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataPagamento;
     private Double valor;
     private Double valorPagamento;
@@ -33,6 +37,11 @@ public class MovimentacaoFinanceira extends AbstractEntity{
             joinColumns = @JoinColumn(name = "mov_financeira_id"),
             inverseJoinColumns = @JoinColumn(name = "centro_resultado_id"))
     private List<CentroResultado> centrosResultado = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "PEDIDO_ID")
+    private Pedido pedido;
 
     public MovimentacaoFinanceira() {
     }
@@ -117,5 +126,13 @@ public class MovimentacaoFinanceira extends AbstractEntity{
 
     public void setCentrosResultado(List<CentroResultado> centrosResultado) {
         this.centrosResultado = centrosResultado;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 }

@@ -1,5 +1,7 @@
 package br.com.devspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +14,7 @@ public class Categoria extends AbstractEntity{
     @NotEmpty(message = "Preenchimento Obrigatorio")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private List<Produto> produtos = new ArrayList<>();
 

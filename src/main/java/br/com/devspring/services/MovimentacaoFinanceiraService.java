@@ -1,7 +1,7 @@
 package br.com.devspring.services;
 
-import br.com.devspring.domain.FormaPagamento;
 import br.com.devspring.domain.MovimentacaoFinanceira;
+import br.com.devspring.domain.Parceiro;
 import br.com.devspring.dto.MovimentacaoFinanceiraDTO;
 import br.com.devspring.repository.MovimentacaoFinanceiraRepository;
 import br.com.devspring.services.exception.ObjectNotFoundException;
@@ -18,28 +18,32 @@ import java.util.Optional;
 public class MovimentacaoFinanceiraService {
 
     @Autowired
-    private MovimentacaoFinanceiraRepository movimentacaoFinanceiraDAO;
+    private MovimentacaoFinanceiraRepository movimentacaoFinanceiraRepository;
 
-    public Object findAll(){
-        return movimentacaoFinanceiraDAO.findAll();
-        /*Iterable<MovimentacaoFinanceira> movimentacoesFinanceira =  movimentacaoFinanceiraDAO.findAll();
-        return movimentacoesFinanceira;*/
+    public Page<MovimentacaoFinanceira> findAll(Pageable pageable){
+        return movimentacaoFinanceiraRepository.findAll(pageable);
+    }
+
+    private void verifyIfMovimentacaoFinanceiraExist(Long id){
+        if (movimentacaoFinanceiraRepository.findById(id).isEmpty()) {
+            throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Parceiro.class.getName());
+        }
     }
 
     public MovimentacaoFinanceira findById(Long id){
-        Optional<MovimentacaoFinanceira> movimentacaoFinanceira = movimentacaoFinanceiraDAO.findById(id);
+        Optional<MovimentacaoFinanceira> movimentacaoFinanceira = movimentacaoFinanceiraRepository.findById(id);
         return movimentacaoFinanceira.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + MovimentacaoFinanceira.class.getName()));
     }
 
     public Page<MovimentacaoFinanceira> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
-        return movimentacaoFinanceiraDAO.findAll(pageRequest);
+        return movimentacaoFinanceiraRepository.findAll(pageRequest);
     }
 
     public MovimentacaoFinanceira save(MovimentacaoFinanceira movimentacaoFinanceira){
         movimentacaoFinanceira.setId(null);
-        return movimentacaoFinanceiraDAO.save(movimentacaoFinanceira);
+        return movimentacaoFinanceiraRepository.save(movimentacaoFinanceira);
     }
 
     public MovimentacaoFinanceira fromDTO(MovimentacaoFinanceiraDTO dto){

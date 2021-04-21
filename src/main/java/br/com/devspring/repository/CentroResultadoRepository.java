@@ -1,7 +1,7 @@
 package br.com.devspring.repository;
 
+import br.com.devspring.domain.CentroResultado;
 import br.com.devspring.domain.Parceiro;
-import br.com.devspring.domain.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +11,5 @@ localhost:8080/formaspagamento?page=1
  */
 @Repository
 //Trabalhar com paginação                       //Contem já alguns métodos de consulta. JpaRepository<FormaPagamento, Long>
-public interface ParceiroRepository extends JpaRepository<Parceiro,Long> {//CrudRepository<FormaPagamento, Long> {
+public interface CentroResultadoRepository extends JpaRepository<CentroResultado,Long> {//CrudRepository<FormaPagamento, Long> {
 }
