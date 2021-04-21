@@ -14,10 +14,11 @@ import java.util.List;
 @Entity
 public class Estado extends AbstractEntity {
 
-    @NotEmpty(message = "O campo nome da forma de pagamento é obrigatório")
+    @NotEmpty(message = "O campo nome do Estado é obrigatório")
     @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
     @JsonIgnore
+
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
 

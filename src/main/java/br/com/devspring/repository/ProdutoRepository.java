@@ -1,7 +1,7 @@
 package br.com.devspring.repository;
 
-import br.com.devspring.domain.Cliente;
-import br.com.devspring.domain.Estado;
+import br.com.devspring.domain.Categoria;
+import br.com.devspring.domain.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ localhost:8080/formaspagamento?page=1
  */
 @Repository
 //Trabalhar com paginação                       //Contem já alguns métodos de consulta. JpaRepository<FormaPagamento, Long>
-public interface ClienteRepository extends JpaRepository<Cliente,Long> {//CrudRepository<FormaPagamento, Long> {
-    List<Cliente> findByNameIgnoreCaseContaining(String name);
+public interface ProdutoRepository extends JpaRepository<Produto,Long> {//CrudRepository<FormaPagamento, Long> {
+    List<Produto> findByNameIgnoreCaseContaining(String name);
 }

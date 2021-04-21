@@ -1,6 +1,6 @@
 package br.com.devspring.domain;
 
-import br.com.devspring.domain.enums.TipoCliente;
+import br.com.devspring.domain.enums.TipoParceiro;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -12,15 +12,17 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Cliente extends AbstractEntity {
+public class Parceiro extends AbstractEntity {
 
+    //@NotEmpty(message = "O campo nome do Parceiro é obrigatório")
+    //@Length(min = 4, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
     private String email;
     private String cpfOuCnpj;
-    private Integer tipoCliente;
+    private Integer tipoParceiro;
 
-    //Um cliente tem vários endereços.
-    @OneToMany(mappedBy = "cliente")
+    //Um parceiro tem vários endereços.
+    @OneToMany(mappedBy = "parceiro")
     private List<Endereco> enderecos = new ArrayList<>();
 
     //Coleção do tipo Set não aceita repeticao de informacao;
@@ -29,21 +31,27 @@ public class Cliente extends AbstractEntity {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
-    public Cliente() {
+    @OneToMany(mappedBy = "parceiro")
+    private List<MovimentacaoFinanceira> movimentacoesFinanceira = new ArrayList<>();
+
+    @OneToMany(mappedBy = "parceiro")
+    private List<Pedido> pedidos = new ArrayList<>();
+
+    public Parceiro() {
     }
 
-    public Cliente(String name, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Parceiro(String name, String email, String cpfOuCnpj, TipoParceiro tipoParceiro) {
         this.name = name;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCliente = tipoCliente.getCodigo();
+        this.tipoParceiro = tipoParceiro.getCodigo();
     }
 
-    public String getNome() {
+    public String getName() {
         return name;
     }
 
-    public void setNome(String nome) {
+    public void setName(String nome) {
         this.name = nome;
     }
 
@@ -63,12 +71,12 @@ public class Cliente extends AbstractEntity {
         this.cpfOuCnpj = cpfOuCnpj;
     }
 
-    public TipoCliente getTipoCliente() {
-        return TipoCliente.toEnum(tipoCliente);
+    public TipoParceiro getTipoParceiro() {
+        return TipoParceiro.toEnum(tipoParceiro);
     }
 
-    public void setTipoCliente(TipoCliente tipoCliente) {
-        this.tipoCliente = tipoCliente.getCodigo();
+    public void setTipoParceiro(TipoParceiro tipoParceiro) {
+        this.tipoParceiro = tipoParceiro.getCodigo();
     }
 
     public List<Endereco> getEnderecos() {
@@ -85,5 +93,21 @@ public class Cliente extends AbstractEntity {
 
     public void setTelefones(Set<String> telefones) {
         this.telefones = telefones;
+    }
+
+    public List<MovimentacaoFinanceira> getMovimentacoesFinanceira() {
+        return movimentacoesFinanceira;
+    }
+
+    public void setMovimentacoesFinanceira(List<MovimentacaoFinanceira> movimentacoesFinanceira) {
+        this.movimentacoesFinanceira = movimentacoesFinanceira;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

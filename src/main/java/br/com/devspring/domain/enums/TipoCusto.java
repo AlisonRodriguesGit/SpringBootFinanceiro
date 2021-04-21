@@ -1,14 +1,14 @@
 package br.com.devspring.domain.enums;
 
-public enum TipoCliente {
+public enum TipoCusto {
 
-    PESSOAFISICA(1, "PESSOAFISICA"),
-    PESSOJURIDICA(2, "PESSOJURIDICA");
+    FIXO(1, "FIXO"),
+    VARIAVEL(2, "VARIAVEL");
 
     private int codigo;
     private String descricao;
 
-    TipoCliente(int codigo, String descricao) {
+    TipoCusto(int codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -21,12 +21,12 @@ public enum TipoCliente {
         return descricao;
     }
 
-    public static TipoCliente toEnum(Integer codigo){
+    public static TipoCusto toEnum(Integer codigo){
         if (codigo == null){
             return null;
         }
 
-        for (TipoCliente tc: TipoCliente.values()) {
+        for (TipoCusto tc: TipoCusto.values()) {
             if (codigo.equals(tc.getCodigo())){
                 return tc;
             }

@@ -1,7 +1,7 @@
 package br.com.devspring.resources;
 
-import br.com.devspring.domain.Cliente;
-import br.com.devspring.services.ClienteService;
+import br.com.devspring.domain.Parceiro;
+import br.com.devspring.services.ParceiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("clientes")
-public class ClienteResource {
+@RequestMapping("parceiros")
+public class ParceiroResource {
 
     @Autowired
-    private ClienteService clienteService;
+    private ParceiroService parceiroService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Cliente> findById(@PathVariable Long id){
-        Cliente cliente = clienteService.findById(id);
-        return ResponseEntity.ok().body(cliente);
+    public ResponseEntity<Parceiro> findById(@PathVariable Long id){
+        Parceiro parceiro = parceiroService.findById(id);
+        return ResponseEntity.ok().body(parceiro);
     }
 
 }

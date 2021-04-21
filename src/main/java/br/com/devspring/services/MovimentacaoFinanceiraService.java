@@ -43,7 +43,7 @@ public class MovimentacaoFinanceiraService {
     }
 
     public MovimentacaoFinanceira fromDTO(MovimentacaoFinanceiraDTO dto){
-        return new MovimentacaoFinanceira(dto.getDescricao(),dto.getDataLancamento(), dto.getDataPagamento(), dto.getValor(), dto.getValorPagamento());
+        return new MovimentacaoFinanceira(dto.getParceiro(), dto.getDescricao(),dto.getDataLancamento(), dto.getDataPagamento(), dto.getValor(), dto.getValorPagamento(), dto.getTipoCusto());
     }
 
 }
