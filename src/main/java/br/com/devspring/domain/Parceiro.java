@@ -3,10 +3,7 @@ package br.com.devspring.domain;
 import br.com.devspring.domain.enums.TipoParceiro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +19,8 @@ public class Parceiro extends AbstractEntity {
     private String cpfOuCnpj;
     private Integer tipoParceiro;
 
-    //Um parceiro tem vários endereços.
-    @OneToMany(mappedBy = "parceiro")
+    //Um parceiro tem vários endereços. Quando excluir o parceiro, exclui seus enderecos.
+    @OneToMany(mappedBy = "parceiro", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     //Coleção do tipo Set não aceita repeticao de informacao;

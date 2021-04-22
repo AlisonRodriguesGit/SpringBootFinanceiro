@@ -46,4 +46,10 @@ public class ParceiroResource {
         return ResponseEntity.created(uri).body(parceiroDTO); ////Rertorna somente a Uri e o Objeto Criado;
     }
 
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        parceiroService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
