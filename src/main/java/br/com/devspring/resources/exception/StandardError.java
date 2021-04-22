@@ -1,5 +1,8 @@
 package br.com.devspring.resources.exception;
 
+import br.com.devspring.util.LocalDateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 
 public class StandardError implements Serializable {
@@ -7,6 +10,7 @@ public class StandardError implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer status;
     private String msg;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Long timeStamp;
     private String developerMessage;
 
@@ -41,8 +45,8 @@ public class StandardError implements Serializable {
         this.msg = msg;
     }
 
-    public Long getTimeStamp() {
-        return timeStamp;
+    public String getTimeStamp() {
+        return LocalDateTimeUtils.converterLongParaString(timeStamp);
     }
 
     public void setTimeStamp(Long timeStamp) {

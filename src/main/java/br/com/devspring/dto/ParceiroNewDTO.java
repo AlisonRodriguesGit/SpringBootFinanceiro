@@ -1,12 +1,23 @@
 package br.com.devspring.dto;
 
+import br.com.devspring.services.validation.ParceiroInsert;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@ParceiroInsert
 public class ParceiroNewDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "O campo nome do Parceiro é obrigatório")
+    @Length(min = 4, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
     private String name;
+    @NotEmpty(message = "O campo é obrigatório")
+    @Email(message = "Email Inválido")
     private String email;
+    @NotEmpty(message = "O campo é obrigatório")
     private String cpfOuCnpj;
     private Integer tipoParceiro;
 
@@ -16,6 +27,7 @@ public class ParceiroNewDTO  implements Serializable {
     private String bairro;
     private String cep;
 
+    @NotEmpty(message = "O campo é obrigatório")
     private String telefone1;
     private String telefone2;
     private String telefone3;
@@ -129,4 +141,6 @@ public class ParceiroNewDTO  implements Serializable {
     public void setCidadeID(Long cidadeID) {
         this.cidadeID = cidadeID;
     }
+
+
 }

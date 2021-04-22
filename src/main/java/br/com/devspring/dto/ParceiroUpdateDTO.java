@@ -1,44 +1,50 @@
 package br.com.devspring.dto;
 
-import br.com.devspring.domain.AbstractEntity;
 import br.com.devspring.domain.Endereco;
-import br.com.devspring.domain.MovimentacaoFinanceira;
-import br.com.devspring.domain.Parceiro;
-import br.com.devspring.domain.enums.TipoCusto;
 import br.com.devspring.domain.enums.TipoParceiro;
 import br.com.devspring.services.validation.ParceiroUpdate;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class ParceiroDTO implements Serializable {
+@ParceiroUpdate
+public class ParceiroUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     @NotEmpty(message = "Preenchimento obrigatório")
-    //@NotEmpty(message = "O campo nome do Parceiro é obrigatório")
-    //@Length(min = 4, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
+    @Length(min = 4, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
     private String name;
+    @NotEmpty(message = "O campo é obrigatório")
+    @Email(message = "Email Inválido")
     private String email;
+    @NotEmpty(message = "O campo é obrigatório")
     private String cpfOuCnpj;
     private Integer tipoParceiro;
 
-    private List<Endereco> enderecos = new ArrayList<>();
-    private Set<String> telefones = new HashSet<>();
-
-    public ParceiroDTO() {
+    public ParceiroUpdateDTO() {
     }
 
-    public ParceiroDTO(String name, String email, String cpfOuCnpj, TipoParceiro tipoParceiro) {
+    public ParceiroUpdateDTO(Long id, String name, String email, String cpfOuCnpj, TipoParceiro tipoParceiro) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoParceiro = tipoParceiro.getCodigo();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -73,19 +79,4 @@ public class ParceiroDTO implements Serializable {
         this.tipoParceiro = tipoParceiro;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
-
-    public Set<String> getTelefones() {
-        return telefones;
-    }
-
-    public void setTelefones(Set<String> telefones) {
-        this.telefones = telefones;
-    }
 }

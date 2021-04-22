@@ -138,7 +138,7 @@ public class DBService {
                 ,formaPagamento5,formaPagamento6,formaPagamento7));
         movimentacaoFinanceiraRepository.saveAll(Arrays.asList(mov1,mov2,mov3,mov4));
 
-        Parceiro parceiroPedido = new Parceiro("Alison", "alison@gmail.com", "94805951095", TipoParceiro.PESSOAFISICA);
+        Parceiro parceiroPedido = new Parceiro("Alison", "alison5@gmail.com", "94805951095", TipoParceiro.PESSOAFISICA);
         parceiroPedido.getTelefones().addAll(Arrays.asList("85986854545","85986854456"));
 
         Endereco endereco = new Endereco("Rua 1117", "178","Altos","CC", "60533354", parceiroPedido,cidade1);

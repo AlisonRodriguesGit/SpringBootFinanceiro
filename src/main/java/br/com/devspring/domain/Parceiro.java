@@ -12,10 +12,9 @@ import java.util.Set;
 @Entity
 public class Parceiro extends AbstractEntity {
 
-    //@NotEmpty(message = "O campo nome do Parceiro é obrigatório")
-    //@Length(min = 4, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
     private String email;
+    //@Column(unique = true) //Não permite repetição no . Não há controle de Exceção, não dá para personalizar a Exception
     private String cpfOuCnpj;
     private Integer tipoParceiro;
 

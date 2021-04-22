@@ -63,4 +63,16 @@ public class LocalDateTimeUtils {
         return TimeZone.getTimeZone(TIMEZONE).toZoneId();
     }
 
+    public static String converterLongParaString(Long currentTimeMillis) {
+        String formattedDateTime = "";
+        SimpleDateFormat formatter = new SimpleDateFormat(FORMATODATA);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern(FORMATODATA);
+        try {
+            formattedDateTime = formatter.format(currentTimeMillis);
+        } catch (Exception e) {
+            formattedDateTime = LocalDateTime.now().format(formatter1);
+        }
+        return formattedDateTime;
+    }
+
 }

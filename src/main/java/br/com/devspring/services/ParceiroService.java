@@ -4,6 +4,7 @@ import br.com.devspring.domain.*;
 import br.com.devspring.domain.enums.TipoParceiro;
 import br.com.devspring.dto.ParceiroDTO;
 import br.com.devspring.dto.ParceiroNewDTO;
+import br.com.devspring.dto.ParceiroUpdateDTO;
 import br.com.devspring.repository.EnderecoRepository;
 import br.com.devspring.repository.ParceiroRepository;
 import br.com.devspring.services.exception.DataIntegrityViolationException;
@@ -50,7 +51,24 @@ public class ParceiroService {
         return parceiro;
     }
 
-    public Parceiro DTOfromEntidade(ParceiroNewDTO objDTO) {
+    @Transactional
+    public Parceiro update(Parceiro parceiro) {
+        verifyIfParceiroExist(parceiro.getId());
+        parceiro = parceiroRepository.save(parceiro);
+        enderecoRepository.saveAll(parceiro.getEnderecos());
+        return parceiro;
+    }
+
+    public void delete(Long id) {
+        verifyIfParceiroExist(id);
+        try {
+            parceiroRepository.deleteById(id);
+        }catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Não é possível excluir um parceiro que possui Pedidos");
+        }
+    }
+
+    public Parceiro newDTOfromEntidade(ParceiroNewDTO objDTO) {
         Parceiro parceiro = new Parceiro(objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoParceiro.toEnum(objDTO.getTipoParceiro()));
         Cidade cidade = new Cidade(objDTO.getCidadeID(), null, null);
         Endereco endereco = new Endereco(objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(), objDTO.getBairro()
@@ -67,20 +85,16 @@ public class ParceiroService {
         return parceiro;
     }
 
+    public Parceiro updateDTOfromEntidade(ParceiroUpdateDTO objDTO) {
+        Parceiro parceiro = new Parceiro(objDTO.getName(), objDTO.getEmail(), objDTO.getCpfOuCnpj(), TipoParceiro.toEnum(objDTO.getTipoParceiro()));
+        return parceiro;
+    }
+
     public ParceiroDTO fromDTO(Parceiro obj) {
         ParceiroDTO parceiroDTO = new ParceiroDTO(obj.getName(), obj.getEmail(), obj.getCpfOuCnpj(), obj.getTipoParceiro());
         parceiroDTO.getEnderecos().addAll(obj.getEnderecos().stream().collect(Collectors.toList()));
         parceiroDTO.getTelefones().addAll(obj.getTelefones().stream().collect(Collectors.toList()));
 
         return parceiroDTO;
-    }
-
-    public void delete(Long id) {
-        verifyIfParceiroExist(id);
-        try {
-            parceiroRepository.deleteById(id);
-        }catch (org.springframework.dao.DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível excluir um parceiro que possui Pedidos");
-        }
     }
 }
