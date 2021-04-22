@@ -52,7 +52,6 @@ public class FormaPagamentoResource {
     //@Transactional(rollbackFor = Exception.class) //Por padrão faz roolback quando existe exceção que não é checked. Se for necessário informar explicitamente
     //@RequestMapping(method = RequestMethod.POST) //inserir informação. Ex:localhost:8080/formapagamento
     @PostMapping
-    //@Transactional(rollbackFor = Exception.class)
     public ResponseEntity<Void> save(@Valid @RequestBody FormaPagamento formaPagamento) {
         formaPagamentoService.save(formaPagamento);
                   //Pega a URI (Ex:localhost:8080/formaspagamento) e acrescenta /'numero id inserido' para retornar no Header do Reponse.

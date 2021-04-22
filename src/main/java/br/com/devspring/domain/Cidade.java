@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class Cidade extends AbstractEntity{
 
-    @NotEmpty(message = "O campo nome da Cidade é obrigatório")
+    //@NotEmpty(message = "O campo nome da Cidade é obrigatório")
     @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
     @ManyToOne
@@ -22,7 +22,8 @@ public class Cidade extends AbstractEntity{
 
     }
 
-    public Cidade(String name, Estado estado) {
+    public Cidade(Long id, String name, Estado estado) {
+        super(id);
         this.name = name;
         this.estado = estado;
     }

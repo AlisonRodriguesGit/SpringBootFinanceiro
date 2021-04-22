@@ -77,9 +77,9 @@ public class DBService {
         Estado estado1 = new Estado("Ceará");
         Estado estado2 = new Estado("São Paulo");
 
-        Cidade cidade1 = new Cidade("Fortaleza",estado1);
-        Cidade cidade2 = new Cidade("São Paulo",estado2);
-        Cidade cidade3 = new Cidade("Campinas",estado2);
+        Cidade cidade1 = new Cidade(null,"Fortaleza",estado1);
+        Cidade cidade2 = new Cidade(null,"São Paulo",estado2);
+        Cidade cidade3 = new Cidade(null,"Campinas",estado2);
 
         estado1.getCidades().addAll(Arrays.asList(cidade1));
         estado2.getCidades().addAll(Arrays.asList(cidade2,cidade3));

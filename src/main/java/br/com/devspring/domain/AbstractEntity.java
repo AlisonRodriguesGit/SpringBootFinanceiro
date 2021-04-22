@@ -16,6 +16,14 @@ public class AbstractEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincremento
     private Long id;
 
+    public  AbstractEntity(){
+
+    }
+
+    public AbstractEntity(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
