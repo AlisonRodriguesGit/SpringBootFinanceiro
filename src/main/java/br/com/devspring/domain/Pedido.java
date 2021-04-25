@@ -60,4 +60,12 @@ public class Pedido extends AbstractEntity{
     public void setMovimentacoesFinanceira(List<MovimentacaoFinanceira> movimentacoesFinanceira) {
         this.movimentacoesFinanceira = movimentacoesFinanceira;
     }
+
+    public double getValorTotal(){
+        double valorTotal = 0.00;
+        for (ItemPedido itemPedido: getItensPedido()) {
+            valorTotal += itemPedido.getSubTotal();
+        }
+        return valorTotal;
+    }
 }
