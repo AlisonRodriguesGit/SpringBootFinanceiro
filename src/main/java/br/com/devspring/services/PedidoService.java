@@ -1,6 +1,5 @@
 package br.com.devspring.services;
 
-import br.com.devspring.domain.Parceiro;
 import br.com.devspring.domain.Pedido;
 import br.com.devspring.repository.PedidoRepository;
 import br.com.devspring.services.exception.ObjectNotFoundException;

@@ -151,13 +151,21 @@ public class DBService {
         Categoria cat1 = new Categoria("Cabelo");
         Produto produto1 = new Produto("Corte",10.00,cat1);
         Produto produto2 = new Produto("Hidratacao",20.00,cat1);
-        cat1.getProdutos().addAll(Arrays.asList(produto1,produto2));
+        Produto produto3 = new Produto("Corte Criança",30.00,cat1);
+        Produto produto4 = new Produto("Corte Especial",30.00,cat1);
+        cat1.getProdutos().addAll(Arrays.asList(produto1,produto2,produto3,produto4));
         Categoria cat2 = new Categoria("Barba");
-        Produto produto3 = new Produto("Corte",5.00,cat2);
-        cat2.getProdutos().addAll(Arrays.asList(produto3));
+        Produto produto5 = new Produto("Design",5.00,cat2);
+        cat2.getProdutos().add(produto5);
+        Categoria cat3 = new Categoria("Pele");
+        Produto produto6 = new Produto("Limpeza",5.00,cat3);
+        cat3.getProdutos().add(produto6);
+        Categoria cat4 = new Categoria("Outros");
+        Produto produto7 = new Produto("Disign Sobrancelha",10.00,cat4);
+        cat4.getProdutos().add(produto7);
 
-        categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
-        produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3));
+        categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4));
+        produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4,produto5,produto6,produto7));
 
         Pedido ped1 = new Pedido(dataAtual,parceiroPedido);
         ItemPedido ip1 = new ItemPedido(ped1,produto1,0.00,1.00,10.00);
