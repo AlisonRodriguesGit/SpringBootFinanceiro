@@ -1,6 +1,7 @@
 package br.com.devspring.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
@@ -10,6 +11,12 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+
+//Cria um campo adicional para o Sping identificar. Utilizado caso a classe fosse abstrata para identificar os objetos filhos.
+//EX: pagamentoComBoleto e pagamentoComCartao.
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+//Adicionar @JsonTypeName("pagamentoComBoleo") , na classe filha.
+//Criar classe de configuração JacksonConfig (Verificar documento - 03-operacoes-de-CRUD-e-casos-de-uso)
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) //Cria somente uma tabela, caso JOINED cria uma tabela tbm para classe herdeira.
@@ -22,10 +29,6 @@ public class FormaPagamento extends AbstractEntity{
     @JsonIgnore//Trata referencia ciclica. //especificamente não convert o atributo em Json.
     @ManyToMany(mappedBy = "formasPagamento")
     private List<MovimentacaoFinanceira> movimetacoesFinanceira = new ArrayList<>();
-
-    /*@JsonIgnore
-    @ManyToMany(mappedBy = "formasPagamento")
-    private List<Pedido> pedidos = new ArrayList<>();*/
 
     public FormaPagamento() {
     }
@@ -50,13 +53,5 @@ public class FormaPagamento extends AbstractEntity{
     public List<MovimentacaoFinanceira> getMovimetacoesFinanceira() {
         return movimetacoesFinanceira;
     }
-
-   /* public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }*/
 
 }
