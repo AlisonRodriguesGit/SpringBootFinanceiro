@@ -58,7 +58,7 @@
         <dependency>
             <groupId>io.jasonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version></version>
+            <!--<version>0.7.0</version> -->
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

@@ -1,5 +1,6 @@
 package br.com.devspring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class BandeiraCartao extends AbstractEntity{
     @Length(min = 3, max = 50, message = "O tamanho deve ser entre 5 e 80 caracteres")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bandeiraCartao")
     private List<FormaPagamentoCartao> formasPagamento = new ArrayList<>();
     //private List<FormaPagamento> formasPagamento = new ArrayList<>();

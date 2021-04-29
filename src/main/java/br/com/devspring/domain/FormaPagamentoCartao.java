@@ -21,6 +21,9 @@ public class FormaPagamentoCartao extends FormaPagamento{
     @JoinColumn(name = "BANDEIRA_CARTAO_ID")
     private BandeiraCartao bandeiraCartao;
 
+    public FormaPagamentoCartao(){
+    }
+
     public FormaPagamentoCartao(String name, TipoLancamento tipoLancamento, BandeiraCartao bandeiraCartao) {
         super(name);
         this.tipoLancamento = tipoLancamento.getCodigo();

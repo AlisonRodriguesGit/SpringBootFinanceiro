@@ -20,6 +20,7 @@ public class FormaPagamentoService {
 
 
     public Page<FormaPagamento> findAll(Pageable pageable) {
+
         return formaPagamentoRepository.findAll(pageable);
     }
 

@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",
-            "/formaspagamento/**",
+            //"/formaspagamento/**",
             "/movimentacaoFinanceira/**",
             "/clientes/**",
             "/pedidos/**",
@@ -53,19 +53,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //Específico para utilização do banco H2 na URL
-        if(Arrays.asList(env.getActiveProfiles()).contains("test")){
-            http.headers().frameOptions().disable();
+        if(Arrays.asList(env.getActiveProfiles()).contains("test")){ //pega os profiles ativos, no caso o 'test' usa o H2;
+            http.headers().frameOptions().disable(); //libera o acesso.
         }
 
+        //Chama o @Bean corsConfigurationSource()
         http.cors();
+
         http.authorizeRequests()
-                //.antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll() //Permite as Urls
+                .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll() //Permite as Urls somente com métodos get
                 .antMatchers(PUBLIC_MATCHERS).permitAll() //Permite as Urls
                 .anyRequest().authenticated() //Para as demais URLs pede authenticação
                 .and()
                 .csrf().disable();//Necessário desabilitar somente ambiente de homologação para testar autenticação por roles(Perfil).
                 //Ou caso a aplicação seja stateless, ou seja, não trabalha com armazenagem de sessoes.
-        //Assegura que nao serão geradas sessoes.
+
+        //Assegura que nao serão geradas sessoes para usuários pelo back end.
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -88,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ));*/
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        //Permissão de acesso para multiplas fontes
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
