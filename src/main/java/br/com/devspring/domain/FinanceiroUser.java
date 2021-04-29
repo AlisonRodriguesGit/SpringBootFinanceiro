@@ -36,7 +36,7 @@ public class FinanceiroUser extends AbstractEntity{
         addPerfil(Perfil.USER);
     }
 
-    public FinanceiroUser(@NotEmpty String userName, @NotEmpty String password, @NotEmpty String name, String email/*, boolean admin*/) {
+    public FinanceiroUser(String userName, String password, String name, String email/*, boolean admin*/) {
         this.userName = userName;
         this.password = password;
         this.name = name;
