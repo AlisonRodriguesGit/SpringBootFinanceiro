@@ -56,9 +56,9 @@
         </dependency>
         <!-- Necessário para criação de token para validação-->
         <dependency>
-            <groupId>io.jasonwebtoken</groupId>
+            <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <!--<version>0.7.0</version> -->
+            <version>0.7.0</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

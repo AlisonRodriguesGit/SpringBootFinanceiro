@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/*Usuário conforme documentação do SpringSecurity*/
 public class UserSpringSercurity implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +48,7 @@ public class UserSpringSercurity implements UserDetails {
         return email;
     }
 
-    @Override
+    @Override// A conta não está expirada?
     public boolean isAccountNonExpired() {
         return true;
     }

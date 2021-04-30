@@ -26,7 +26,7 @@ public class FinanceiroUser extends AbstractEntity{
     @NotEmpty
     private  String email;
 
-    @ElementCollection(fetch = FetchType.EAGER) //Sempre trazer a lista de Perfis
+    @ElementCollection(fetch = FetchType.EAGER) // FetchType.EAGER(Sempre trazer a lista de Perfis).
     @CollectionTable(name = "PERFIS") //Cria uma tabela simples (1:1) Ex: (Financeiro_User_ID ; PERFIS)
     private Set<Integer> perfis = new HashSet<>();
 

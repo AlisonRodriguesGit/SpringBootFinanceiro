@@ -1,5 +1,7 @@
 package br.com.devspring.config;
 
+import br.com.devspring.security.JWTAuthenticationFilter;
+import br.com.devspring.security.JWTUtil;
 import br.com.devspring.services.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -7,16 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,9 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment env;//Específico para utilização do banco H2 na URL
 
+    @Autowired
+    private JWTUtil jwtUtil; //Utilizado na criação do Filtro de Autenticacao.
+
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",
-            "/user/**",
+            //"/user/**",
             "/movimentacaoFinanceira/**",
             "/clientes/**",
             "/pedidos/**",
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/formaspagamento/**"
     };
 
-    @Override
+    @Override /*Resposável pela liberação ou não das URL*/
     protected void configure(HttpSecurity http) throws Exception {
 
         //Específico para utilização do banco H2 na URL
@@ -68,11 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();//Necessário desabilitar somente ambiente de homologação para testar autenticação por roles(Perfil).
                 //Ou caso a aplicação seja stateless, ou seja, não trabalha com armazenagem de sessoes.
 
+        //Adicionando o Filtro de Autenticação que irá vericar o UserName e Senha e gerar o Token JWT.
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
         //Assegura que nao serão geradas sessoes para usuários pelo back end.
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    @Override
+    @Override /*necessário para Autenticação. Passa para o SpringSecurity quém o USerDetail e o Algoritimo de criptografia da senha.*/
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder());
     }

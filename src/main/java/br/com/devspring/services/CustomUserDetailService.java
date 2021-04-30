@@ -11,12 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/*UserDetailsService permite fazer uma busca pelo nome do usuário*/
 @Service
 public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private FinancerioUserRepository financerioUserRepository;
 
-    @Override
+    @Override //Recebi um usuário e Retorna um UserDetails de acordo com a especificação do Spring.
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         //Recuperando o Usuário
         //ofNullable verifica se o retorno não é vazio.

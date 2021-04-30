@@ -5,25 +5,25 @@ import java.io.Serializable;
 public class CredenciaisDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String email;
-    private String senha;
+    private String userName;
+    private String password;
 
     public CredenciaisDTO() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
