@@ -67,4 +67,9 @@ public class UserSpringSercurity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    //Convert o Perfil em um GrantedAuthority e verifica se existe aquele Perfil na lista.
+    public boolean hasHole(Perfil admin) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(admin.getDescricao()));
+    }
 }

@@ -1,12 +1,18 @@
 package br.com.devspring.services;
 
-import br.com.devspring.domain.*;
+import br.com.devspring.domain.Cidade;
+import br.com.devspring.domain.Endereco;
+import br.com.devspring.domain.Parceiro;
+import br.com.devspring.domain.enums.Perfil;
 import br.com.devspring.domain.enums.TipoParceiro;
 import br.com.devspring.dto.ParceiroDTO;
 import br.com.devspring.dto.ParceiroNewDTO;
 import br.com.devspring.dto.ParceiroUpdateDTO;
 import br.com.devspring.repository.EnderecoRepository;
+import br.com.devspring.repository.FinancerioUserRepository;
 import br.com.devspring.repository.ParceiroRepository;
+import br.com.devspring.security.UserSpringSercurity;
+import br.com.devspring.services.exception.AuthorizationException;
 import br.com.devspring.services.exception.DataIntegrityViolationException;
 import br.com.devspring.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

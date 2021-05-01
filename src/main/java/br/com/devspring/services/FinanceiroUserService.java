@@ -2,12 +2,16 @@ package br.com.devspring.services;
 
 import br.com.devspring.domain.FinanceiroUser;
 import br.com.devspring.domain.Parceiro;
+import br.com.devspring.domain.enums.Perfil;
 import br.com.devspring.repository.FinancerioUserRepository;
+import br.com.devspring.security.UserSpringSercurity;
+import br.com.devspring.services.exception.AuthorizationException;
 import br.com.devspring.services.exception.DataIntegrityViolationException;
 import br.com.devspring.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,15 @@ public class FinanceiroUserService {
     @Autowired
     private BCryptPasswordEncoder pe;
 
+    //Retorna o usuário logado.
+    public static UserSpringSercurity authenticated(){
+        try {
+            return (UserSpringSercurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (Exception e){
+            return  null;
+        }
+    }
+
     public Page<FinanceiroUser> findAll(Pageable pageable) {
         return financeiroUserRepository.findAll(pageable);
     }
@@ -32,6 +45,15 @@ public class FinanceiroUserService {
     }
 
     public FinanceiroUser findById(Long id) {
+        //Recupera o usuário logado.
+        UserSpringSercurity user = FinanceiroUserService.authenticated();
+
+        //Se não tiver usuário logado ou não for ADMIN e o ID que está buscando não é dele mesmo, não pode acessar.
+        // Ou seja, só pode acessar se for um ADMIN ou se tiver buscando por ele mesmo.
+        if (user == null || !user.hasHole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado!");
+        }
+
         Optional<FinanceiroUser> financeiroUser = financeiroUserRepository.findById(id);
         return financeiroUser.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + FinanceiroUser.class.getName()));
