@@ -31,6 +31,20 @@ public class PedidoResource {
         return ResponseEntity.ok(pedidos);
     }
 
+    @GetMapping
+    @RequestMapping(path = "/page")
+    public ResponseEntity<Page<Pedido>> findPage(
+            @RequestParam(value = "page",defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage",defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy",defaultValue = "data") String orderBy,
+            @RequestParam(value = "direction",defaultValue = "DESC") String direction
+    ){
+        Page<Pedido> list = pedidoService.findPage(page,linesPerPage,orderBy,direction);
+        //Page<MovimentacaoFinanceiraDTO> listDTO = list.stream().map(obj -> new MovimentacaoFinanceiraDTO(obj)).collect(Collectors.toList());
+        //Page<MovimentacaoFinanceiraDTO> listDTO = list.map(obj -> new MovimentacaoFinanceiraDTO(obj));
+        return ResponseEntity.ok().body(list);
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Pedido> findById(@PathVariable Long id){
         Pedido pedido = pedidoService.findById(id);

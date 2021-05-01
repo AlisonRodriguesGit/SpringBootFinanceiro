@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity
+@Entity(name = "usuario")
 public class FinanceiroUser extends AbstractEntity {
 
     @NotEmpty
@@ -31,7 +33,9 @@ public class FinanceiroUser extends AbstractEntity {
     @CollectionTable(name = "PERFIS") //Cria uma tabela simples (1:1) Ex: (Financeiro_User_ID ; PERFIS)
     private Set<Integer> perfis = new HashSet<>();
 
-    //private boolean admin;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public FinanceiroUser() {
         addPerfil(Perfil.USER);
@@ -87,11 +91,11 @@ public class FinanceiroUser extends AbstractEntity {
         perfis.add(perfil.getCod());
     }
 
-    /*public boolean isAdmin() {
-        return admin;
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }*/
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
 }

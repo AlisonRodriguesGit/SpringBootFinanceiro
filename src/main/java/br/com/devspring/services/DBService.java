@@ -167,11 +167,11 @@ public class DBService {
         categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4));
         produtoRepository.saveAll(Arrays.asList(produto1,produto2,produto3,produto4,produto5,produto6,produto7));
 
-        Pedido ped1 = new Pedido(dataAtual,parceiroPedido);
+        Pedido ped1 = new Pedido(dataAtual,parceiroPedido, user1);
         ItemPedido ip1 = new ItemPedido(ped1,produto1,0.00,1.00,10.00);
         ItemPedido ip2 = new ItemPedido(ped1,produto2,0.00,1.00,20.00);
 
-        Pedido ped2 = new Pedido(dataAtual,parceiroPedido);
+        Pedido ped2 = new Pedido(dataAtual,parceiroPedido, user2);
         ItemPedido ip3 = new ItemPedido(ped2,produto1,0.00,1.00,10.00);
         ItemPedido ip4 = new ItemPedido(ped2,produto3,0.00,1.00,05.00);
 
@@ -183,21 +183,30 @@ public class DBService {
         produto3.getItensPedido().addAll(Arrays.asList(ip4));
 
         CentroResultado centroResultado = new CentroResultado("PEDIDOS");
-        MovimentacaoFinanceira mov = new MovimentacaoFinanceira(parceiroPedido,"Recebimento Pedido1",dataAtual,null,100.00,null,TipoCusto.VARIAVEL);
-        formaPagamento1.getMovimetacoesFinanceira().addAll(Arrays.asList(mov));
+        MovimentacaoFinanceira mov = new MovimentacaoFinanceira(parceiroPedido,"Recebimento Pedido1",dataAtual,null,30.00,null,TipoCusto.VARIAVEL);
+        MovimentacaoFinanceira mov5 = new MovimentacaoFinanceira(parceiroPedido,"Recebimento Pedido2",dataAtual,null,15.00,null,TipoCusto.VARIAVEL);
+        formaPagamento1.getMovimetacoesFinanceira().addAll(Arrays.asList(mov,mov5));
 
         mov.getFormasPagamento().addAll(Arrays.asList(formaPagamento1));
         mov.setPedido(ped1);
-        mov.getCentrosResultado().addAll(Arrays.asList(centroResultado));
-        centroResultado.getMovimetacoesFinanceira().addAll(Arrays.asList(mov));
+        mov.getCentrosResultado().add(centroResultado);
+        mov5.getFormasPagamento().addAll(Arrays.asList(formaPagamento1));
+        mov5.setPedido(ped2);
+        mov5.getCentrosResultado().add(centroResultado);
 
-        ped1.getMovimentacoesFinanceira().addAll(Arrays.asList(mov));
+        centroResultado.getMovimetacoesFinanceira().addAll(Arrays.asList(mov,mov5));
 
+        ped1.getMovimentacoesFinanceira().add(mov);
+        ped2.getMovimentacoesFinanceira().add(mov5);
+
+        user1.getPedidos().add(ped1);
+        user2.getPedidos().add(ped2);
 
         pedidoepository.saveAll(Arrays.asList(ped1,ped2));
         itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3,ip4));
         centroResultadoRepository.saveAll(Arrays.asList(centroResultado));
         movimentacaoFinanceiraRepository.saveAll(Arrays.asList(mov));
         formaPagamentoRepository.saveAll(Arrays.asList(formaPagamento1));
+        financerioUserRepository.saveAll(Arrays.asList(user1,user2));
     }
 }

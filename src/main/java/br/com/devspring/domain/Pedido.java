@@ -22,11 +22,16 @@ public class Pedido extends AbstractEntity{
     @OneToMany(mappedBy = "pedido")
     private List<MovimentacaoFinanceira> movimentacoesFinanceira = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private FinanceiroUser user;
+
     public Pedido(){ }
 
-    public Pedido(Date data, Parceiro parceiro) {
+    public Pedido(Date data, Parceiro parceiro, FinanceiroUser user) {
         this.data = data;
         this.parceiro = parceiro;
+        this.user = user;
     }
 
     public Date getData() {
@@ -59,6 +64,14 @@ public class Pedido extends AbstractEntity{
 
     public void setMovimentacoesFinanceira(List<MovimentacaoFinanceira> movimentacoesFinanceira) {
         this.movimentacoesFinanceira = movimentacoesFinanceira;
+    }
+
+    public FinanceiroUser getUser() {
+        return user;
+    }
+
+    public void setUser(FinanceiroUser user) {
+        this.user = user;
     }
 
     public double getValorTotal(){
