@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("usuarios")
 public class FinanceiroUserResource {
 
     @Autowired
@@ -29,6 +30,7 @@ public class FinanceiroUserResource {
 
     }*/
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping
     public ResponseEntity<?> findAll(Pageable pageable){
         Page<FinanceiroUser> financeiroUsers = financeiroUserService.findAll(pageable);
@@ -60,6 +62,7 @@ public class FinanceiroUserResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         financeiroUserService.delete(id);

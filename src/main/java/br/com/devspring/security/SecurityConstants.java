@@ -1,5 +1,6 @@
 package br.com.devspring.security;
 
+/*Não está sendo utilizada, mas é uma outra maneira de criar variáveis para criação do token*/
 public class SecurityConstants {
 
     //Authorization(Header) Bearer(Value) Hash(asdasgss13513)

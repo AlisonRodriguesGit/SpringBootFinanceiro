@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,6 +35,7 @@ public class ParceiroResource {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping
     public ResponseEntity<?> findAll(Pageable pageable){
         Page<Parceiro> parceiros = parceiroService.findAll(pageable);
@@ -59,6 +61,7 @@ public class ParceiroResource {
         return ResponseEntity.created(uri).body(parceiroDTO); ////Rertorna somente a Uri e o Objeto Criado;
     }
 
+
     @PutMapping(path = "/{id}")
     public ResponseEntity<Void> save(@PathVariable Long id, @Valid @RequestBody ParceiroUpdateDTO parceiroDTO){
         Parceiro parceiro = parceiroService.updateDTOfromEntidade(parceiroDTO);
@@ -67,6 +70,7 @@ public class ParceiroResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         parceiroService.delete(id);

@@ -1,15 +1,14 @@
 package br.com.devspring.resources;
 
-import br.com.devspring.domain.Pedido;
 import br.com.devspring.domain.Produto;
 import br.com.devspring.dto.ProdutoDTO;
 import br.com.devspring.resources.utils.URL;
-import br.com.devspring.services.PedidoService;
 import br.com.devspring.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +20,7 @@ public class ProdutoResource {
     @Autowired
     private ProdutoService produtoService;
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping
     //@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll(Pageable pageable) {
@@ -34,6 +34,7 @@ public class ProdutoResource {
         return ResponseEntity.ok(produto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping(value = "/page")
     //@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Page<ProdutoDTO>> findPage(

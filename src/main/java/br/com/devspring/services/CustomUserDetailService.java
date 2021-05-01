@@ -32,7 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
         //List<GrantedAuthority> authoritiesListUser = AuthorityUtils.createAuthorityList("ROLE_USER");
 
         //Retorna um Usuário do Spring(UserDetails) com a sua Lista de GrantedAuthority.
-        return new UserSpringSercurity(financeiroUser.getId(), financeiroUser.getEmail(), financeiroUser.getPassword(),
+        return new UserSpringSercurity(financeiroUser.getId(), financeiroUser.getUserName(), financeiroUser.getSenha(),
                     financeiroUser.getPerfins());
     }
 }

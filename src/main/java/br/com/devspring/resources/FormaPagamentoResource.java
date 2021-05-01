@@ -26,6 +26,7 @@ public class FormaPagamentoResource {
     @Autowired
     private FormaPagamentoService formaPagamentoService;
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping
     //@RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll(Pageable pageable) {
@@ -65,7 +66,7 @@ public class FormaPagamentoResource {
     }
 
     //@RequestMapping(method = RequestMethod.DELETE) //deleta informação. Ex:localhost:8080/formapagamento ; passar no body o Jason
-    //@PreAuthorize("ADMIM") //Indica que para excluir precisa de permissão de Admin, configurado em 'SecurityConfig'.
+    @PreAuthorize("ADMIM") //Indica que para excluir precisa de permissão de Admin, configurado em 'SecurityConfig'.
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         formaPagamentoService.delete(id);

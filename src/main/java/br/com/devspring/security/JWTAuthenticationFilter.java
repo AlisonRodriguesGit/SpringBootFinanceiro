@@ -40,6 +40,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             //Pega o request(requisiçao) e Convert em um FinanceiroUser para pegar usuário e senha.
             CredenciaisDTO user = new ObjectMapper().readValue(request.getInputStream(), CredenciaisDTO.class);
 
+            //Necessário passar o usuario e senha para um objeto do tipo 'UsernamePasswordAuthenticationToken'
             UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
 
             //Passando a autenticação no authenticationManager, onde o próprio Spring chamará o método 'successfulAuthentication'

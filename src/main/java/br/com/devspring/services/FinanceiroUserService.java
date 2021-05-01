@@ -39,7 +39,7 @@ public class FinanceiroUserService {
 
     public FinanceiroUser save(FinanceiroUser financeiroUser) {
         financeiroUser.setId(null);
-        financeiroUser.setPassword(pe.encode(financeiroUser.getPassword()));
+        financeiroUser.setSenha(pe.encode(financeiroUser.getSenha()));
         return financeiroUserRepository.save(financeiroUser);
     }
 

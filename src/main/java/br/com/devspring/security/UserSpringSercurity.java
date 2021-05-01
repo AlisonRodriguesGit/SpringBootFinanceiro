@@ -14,16 +14,16 @@ public class UserSpringSercurity implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String email;
+    private String userName;
     private String senha;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserSpringSercurity() {
     }
 
-    public UserSpringSercurity(Long id, String email, String senha, Set<Perfil> authorities) {
+    public UserSpringSercurity(Long id, String userName, String senha, Set<Perfil> authorities) {
         this.id = id;
-        this.email = email;
+        this.userName = userName;
         this.senha = senha;
         //Convertendo uma lista de Perfil para uma Coleção de GrantedAuthority
         this.authorities = authorities.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
@@ -45,7 +45,7 @@ public class UserSpringSercurity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
 
     @Override// A conta não está expirada?

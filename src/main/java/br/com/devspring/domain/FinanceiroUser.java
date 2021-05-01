@@ -2,6 +2,7 @@ package br.com.devspring.domain;
 
 import br.com.devspring.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,20 +12,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-public class FinanceiroUser extends AbstractEntity{
+public class FinanceiroUser extends AbstractEntity {
 
     @NotEmpty
     @Column(unique = true)
     private String userName;
     @NotEmpty
-    @JsonIgnore
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    //@JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String senha;
     @NotEmpty
     private String name;
     @Email
     @NotEmpty
-    private  String email;
+    private String email;
 
     @ElementCollection(fetch = FetchType.EAGER) // FetchType.EAGER(Sempre trazer a lista de Perfis).
     @CollectionTable(name = "PERFIS") //Cria uma tabela simples (1:1) Ex: (Financeiro_User_ID ; PERFIS)
@@ -36,9 +37,9 @@ public class FinanceiroUser extends AbstractEntity{
         addPerfil(Perfil.USER);
     }
 
-    public FinanceiroUser(String userName, String password, String name, String email/*, boolean admin*/) {
+    public FinanceiroUser(String userName, String senha, String name, String email/*, boolean admin*/) {
         this.userName = userName;
-        this.password = password;
+        this.senha = senha;
         this.name = name;
         this.email = email;
         addPerfil(Perfil.USER);
@@ -53,12 +54,12 @@ public class FinanceiroUser extends AbstractEntity{
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getName() {
@@ -77,12 +78,12 @@ public class FinanceiroUser extends AbstractEntity{
         this.email = email;
     }
 
-    public Set<Perfil> getPerfins(){
+    public Set<Perfil> getPerfins() {
         //Percorre a lista de Perfil, convertendo o id para o Perfil e retorna uma Lista com os PERFIS.
         return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void addPerfil(Perfil perfil){
+    public void addPerfil(Perfil perfil) {
         perfis.add(perfil.getCod());
     }
 

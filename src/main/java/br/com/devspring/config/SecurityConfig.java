@@ -1,6 +1,7 @@
 package br.com.devspring.config;
 
 import br.com.devspring.security.JWTAuthenticationFilter;
+import br.com.devspring.security.JWTAuthorizationFilter;
 import br.com.devspring.security.JWTUtil;
 import br.com.devspring.services.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,6 +25,7 @@ import java.util.Arrays;
 //@EnableGlobalMethodSecurity(prePostEnabled = true) //necessário para ativar @PreAuthorize configurado no resource.
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //Permite colocar anotações(Ex:@PreAuthorize("hasAnyRole('ADMIN')")) nos EndPoints
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //Obs: verificar se injetando a Interface UserDetailService o Spring já encontra a classe CustomUserDetailService
@@ -36,17 +39,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil; //Utilizado na criação do Filtro de Autenticacao.
 
     private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**",
-            //"/user/**",
-            "/movimentacaoFinanceira/**",
-            "/clientes/**",
-            "/pedidos/**",
-            "/parceiros/**",
-            "/produtos/**"
+            "/h2-console/**"
+            //"/movimentacaoFinanceira/**",
+            //"/clientes/**",
+            //"/pedidos/**",
+            //"/parceiros/**",
+            //"/produtos/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/formaspagamento/**"
+    };
+
+    private static final String[] PUBLIC_MATCHERS_POST = {
+            "/usuarios/**"
     };
 
     @Override /*Resposável pela liberação ou não das URL*/
@@ -62,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll() //Permite as Urls somente com métodos get
+                .antMatchers(HttpMethod.POST,PUBLIC_MATCHERS_POST).permitAll() //Permite as Urls somente com métodos get
                 .antMatchers(PUBLIC_MATCHERS).permitAll() //Permite as Urls
                 .anyRequest().authenticated() //Para as demais URLs pede authenticação
                 .and()
@@ -70,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //Adicionando o Filtro de Autenticação que irá vericar o UserName e Senha e gerar o Token JWT.
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
+        //Adicionando o Filtro de Autorização que irá vericar o Token JWT é valido, ou seja, se o usuário é o mesmo gerado pelo TOKEN e se o TOKEN não está expirado.
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtUtil,customUserDetailService));
         //Assegura que nao serão geradas sessoes para usuários pelo back end.
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

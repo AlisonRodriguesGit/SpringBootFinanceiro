@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +25,7 @@ public class MovimentacaoFinanceiraResouce {
     @Autowired
     private MovimentacaoFinanceiraService movimentacaoFinanceiraService;
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     @GetMapping
     public ResponseEntity<Object> findAll(Pageable pageable){
         //List<MovimentacaoFinanceira> list = movimentacaoFinanceiraService.findAll();
@@ -41,6 +43,7 @@ public class MovimentacaoFinanceiraResouce {
     }
 
 
+    @PreAuthorize("hasAnyRole('ADMIN')") //Somente se tiver permissão de ADMIN pode executar a requisição
     //localhost:8080/movimentacaoFinanceira/page?linesPerPage=1&page=2
     @GetMapping
     @RequestMapping(path = "/page")
