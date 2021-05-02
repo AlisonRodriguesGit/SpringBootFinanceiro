@@ -31,26 +31,35 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         //Pega a chave de nome 'Authorization'
-        String header = URL.decodeParam(request.getQueryString());
-        //header = request.getHeader("Authorization"); //não sei pq não funciona
-        if (header != null) {
-            int posicaoInicial = header.indexOf("Bearer");
-            int posicaoFinal = header.indexOf("&", posicaoInicial);
-            if (posicaoFinal != -1)
-                header = header.substring(posicaoInicial, posicaoFinal);
-            else if (posicaoInicial != -1)
-                header = header.substring(posicaoInicial);
-        }
+        if (request.getQueryString() != null) {
+            String header = URL.decodeParam(request.getQueryString());
 
-        //Se não for vazia e começar com 'Bearer '
-        if (header != null && header.startsWith("Bearer ")) {
-            //passa o request e a chave 'Authorization' para validação
-            UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
-            //se retornar diferente de null é pq a chave informada está correta.
-            if (auth != null) {
-                //função que libera o acesso da Requisição.
-                SecurityContextHolder.getContext().setAuthentication(auth);
+            //header = request.getHeader("Authorization"); //não sei pq não funciona
+            if (header != null) {
+                int posicaoInicial = header.indexOf("Bearer");
+                int posicaoFinal = header.indexOf("&", posicaoInicial);
+                if (posicaoFinal != -1)
+                    header = header.substring(posicaoInicial, posicaoFinal);
+                else if (posicaoInicial != -1)
+                    header = header.substring(posicaoInicial);
             }
+
+            //Se não for vazia e começar com 'Bearer '
+            if (header != null && header.startsWith("Bearer ")) {
+                //passa o request e a chave 'Authorization' para validação
+                UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
+                //se retornar diferente de null é pq a chave informada está correta.
+                if (auth != null) {
+                    //função que libera o acesso da Requisição.
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            }
+
+        //Criei uma regra para liberar a URI do h2 console
+        } else if (request.getRequestURI().startsWith("/h2-console")) {
+            UserDetails user = customUserDetailService.loadUserByUsername("Joao");
+            UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(userToken);
         }
         //informando que ele pode continuar com a requisição.
         chain.doFilter(request, response);
