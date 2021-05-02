@@ -18,7 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class) //Classe SpringRunner é responsável por rodas os testes
 @DataJpaTest //Varias configurações para realizar teste com o banco
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//Para utilizar com o banco de dados real e não o H2
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+
 public class FinanceiroUserRepositoryTest {
 
     @Autowired
