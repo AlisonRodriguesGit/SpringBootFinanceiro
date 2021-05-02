@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         //Recuperando o Usuário
         //ofNullable verifica se o retorno não é vazio.
-        FinanceiroUser financeiroUser = Optional.ofNullable(financerioUserRepository.findByUserName(userName))
+        FinanceiroUser financeiroUser = financerioUserRepository.findByUserName(userName)
                 //orElseThrow . Lança uma exceção se for vazio.
             .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 

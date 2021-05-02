@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Entity(name = "usuario")
 public class FinanceiroUser extends AbstractEntity {
 
-    @NotEmpty
+    @NotEmpty(message = "Nome do usuário deve ser informado!")
     @Column(unique = true)
     private String userName;
     @NotEmpty
@@ -25,8 +25,8 @@ public class FinanceiroUser extends AbstractEntity {
     private String senha;
     @NotEmpty
     private String name;
-    @Email
-    @NotEmpty
+    @Email(message = "Digite um email válido!")
+    @NotEmpty(message = "Email do usuário deve ser informado!")
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER) // FetchType.EAGER(Sempre trazer a lista de Perfis).
